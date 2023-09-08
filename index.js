@@ -6,6 +6,7 @@ const cors = require("cors");
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const ObjectId = require("mongodb").ObjectId;
 require("dotenv").config();
+const { price, priceByOrderId } = require("./price.js");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -54,8 +55,9 @@ client.connect((err) => {
   //cashon payment
   //cashon delivery system
   app.post("/cashonDeliveryInit", async (req, res) => {
+    const priceCalculate = await price(req.body?.orderedData);
     const data = {
-      total_amount: req.body?.total_amount,
+      total_amount: priceCalculate,
       currency: "BDT",
       success_url: `${process.env.REACT_APP_BACKEND_URL}/success`,
       fail_url: `${process.env.REACT_APP_BACKEND_URL}/fail`,
@@ -77,14 +79,13 @@ client.connect((err) => {
       payment_method: req.body?.payment_method,
       orderTime: req.body?.orderTime,
     };
-
     //insert order data into database
     const order = await orderCollection.insertOne(data);
 
     //send response indicating successful insertion
     res
       .status(200)
-      .send({ message: "Order data has been successfully inserted" });
+      .send({ message: "Order data has been successfully inserted","inserted_data":data });
   });
 
   // mongodb connected message
