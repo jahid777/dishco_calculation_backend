@@ -39,7 +39,7 @@ client.connect((err) => {
   //get all food
   app.get("/getAllProducts", async (req, res) => {
     const foods = await foodCollection.find({}).toArray((error, documents) => {
-      res.send({ documents });
+      res.send(documents);
     });
   });
 
