@@ -87,7 +87,7 @@
 //   }
 // };
 
-//ata ami korsilam solve kore valoi kaj kore tobe atar mongodb connection kinto alada alada kore korsi
+//ata ami korsilam solve kore valoi kaj kore tobe atar mongodb connection kinto alada alada kore korsi db nam a arekta file banaia korislam jeta dishco server a ase
 
 const { MongoClient, ObjectId } = require("mongodb");
 require("dotenv").config();
