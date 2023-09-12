@@ -83,9 +83,17 @@ client.connect((err) => {
     const order = await orderCollection.insertOne(data);
 
     //send response indicating successful insertion
-    res
-      .status(200)
-      .send({ message: "Order data has been successfully inserted","inserted_data":data });
+    res.status(200).send({
+      message: "Order data has been successfully inserted",
+      inserted_data: data,
+    });
+  });
+
+  //get all order
+  app.get("/getAllOrders", async (req, res) => {
+    const foods = await orderCollection.find({}).toArray((error, documents) => {
+      res.send(documents);
+    });
   });
 
   // mongodb connected message
